@@ -13,6 +13,10 @@ from views import (
     create_customer,
     create_employee,
     create_location,
+    delete_animal,
+    delete_customer,
+    delete_location,
+    delete_employee,
 )
 
 # Here's a class. It inherits from another class.
@@ -163,6 +167,28 @@ class HandleRequests(BaseHTTPRequestHandler):
         """Handles PUT requests to the server
         """
         self.do_POST()
+
+    def do_DELETE(self):
+        """deletes animal"""
+        # Set a 204 response code
+        self._set_headers(204)
+
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
+
+        # Delete a single animal from the list
+        if resource == "animals":
+            delete_animal(id)
+        elif resource == "locations":
+            delete_location(id)
+        elif resource == "customers":
+            delete_customer(id)
+        elif resource == "employees":
+            delete_employee(id)
+
+        # Encode the new animal and send in response
+        self.wfile.write("".encode())
+
 
 # This function is not inside the class. It is the starting
 # point of this application.
