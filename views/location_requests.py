@@ -57,3 +57,13 @@ def delete_location(id):
     # If the animal was found, use pop(int) to remove it from list
     if location_index >= 0:
         LOCATIONS.pop(location_index)
+
+def update_location(id, new_location):
+    """updates animal"""
+    # Iterate the ANIMALS list, but use enumerate() so that
+    # you can access the index value of each item.
+    for index, location in enumerate(LOCATIONS):
+        if location["id"] == id:
+            # Found the animal. Update the value.
+            LOCATIONS[index] = new_location
+            break
