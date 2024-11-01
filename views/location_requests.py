@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from .models import Location
+from .models import Location, Employee, Animal
 
 
 
@@ -61,24 +61,45 @@ def get_single_location(id):
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
 
-        # Use a ? parameter to inject a variable's value
-        # into the SQL statement.
         db_cursor.execute("""
         SELECT
-            a.id,
-            a.name,
-            a.address
-        FROM location a
-        WHERE a.id = ?
+        l.id AS location_id,
+        l.name AS location_name,
+        l.address AS location_address,
+        e.id AS employee_id, e.name AS employee_name, e.address AS employee_address,
+        a.id AS animal_id, a.name AS animal_name, a.breed, a.status, a.customer_id
+        FROM 
+            location l
+        JOIN 
+            employee e ON l.id = e.location_id
+        JOIN 
+            animal a ON l.id = a.location_id
+        WHERE 
+            l.id = ?
         """, ( id, ))
 
-        # Load the single result into memory
-        data = db_cursor.fetchone()
+    results = db_cursor.fetchall()
+    location = Location(results[0]["location_id"], results[0]["location_name"], results[0]["location_address"])
+    data = {
+        'employees': [],
+        'animals': []
+    }
+    animal_ids = set()
+    employee_ids = set()
+    for row in results:
+        if row["employee_id"] not in employee_ids:
+            employee = Employee(row["employee_id"], row["employee_name"], row["employee_address"], id)
+            data["employees"].append(employee.serialized())
+            employee_ids.add(row["employee_id"])
 
-        # Create an animal instance from the current row
-        location = Location(data['id'], data['name'], data['address'])
+        if row["animal_id"] not in animal_ids:
+            animal = Animal(row["animal_id"], row["animal_name"], row["breed"], row["status"], id, row["customer_id"])
+            data["animals"].append(animal.serialized())
+            animal_ids.add(row["animal_id"])
 
-        return json.dumps(location.__dict__)
+    response = location.__dict__ | data
+
+    return response
 
 def create_location(location):
     """creates animal from dict repr sent by client"""

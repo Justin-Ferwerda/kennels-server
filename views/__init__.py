@@ -5,6 +5,7 @@ from .animal_requests import delete_animal
 from .animal_requests import update_animal
 from .animal_requests import get_animals_by_location_id
 from .animal_requests import get_animals_by_status
+from .animal_requests import search_animals
 from .location_requests import delete_location
 from .location_requests import create_location
 from .location_requests import get_all_locations

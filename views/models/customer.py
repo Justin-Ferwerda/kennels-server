@@ -6,4 +6,9 @@ class Customer:
         self.address = address
         self.email = email
         self.password = password
-  
+
+    def serialized(self):
+        return {
+            "name": self.name,
+            "address": self.address
+        }

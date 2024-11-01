@@ -26,6 +26,7 @@ from views import (
     get_animals_by_location_id,
     get_employees_by_location_id,
     get_animals_by_status,
+    search_animals,
 )
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -134,6 +135,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             elif query.get('status') and resource == 'animals':
                 response = get_animals_by_status(query['status'][0])
+
+            elif query.get('search') and resource == 'animals':
+                response = search_animals(query['search'][0])
 
         # This weird code sends a response back to the client
         self.wfile.write(f"{response}".encode())

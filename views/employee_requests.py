@@ -73,7 +73,9 @@ def get_single_employee(id):
         db_cursor.execute("""
         SELECT
             a.id,
-            a.name
+            a.name,
+            a.address,
+            a.location_id
         FROM employee a
         WHERE a.id = ?
         """, ( id, ))
