@@ -9,3 +9,11 @@ class Animal():
         self.customer_id = customer_id
         self.location = None
         self.customer = None
+
+    def serialized(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "breed": self.breed,
+            "status": self.status
+        }

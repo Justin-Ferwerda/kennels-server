@@ -68,3 +68,43 @@ FROM animal a
 WHERE a.id = 3
 
 SELECT * FROM animal ORDER BY id DESC
+
+SELECT
+            a.id,
+            a.name,
+            a.breed,
+            a.status,
+            a.location_id,
+            a.customer_id,
+            l.name location_name,
+            l.address location_address,
+            c.name customer_name,
+            c.address,
+            c.email,
+            c.password
+        FROM Animal a
+        JOIN Location l
+            ON l.id = a.location_id
+        JOIN customer c
+            ON c.id = a.customer_id
+
+
+24737 Gema Nantz
+14887
+I heard a gunshot and then saw a man run out. He had a "Get Fit Now Gym" bag. The membership number on the bag started with "48Z". Only gold members have those bags. The man got into a car with a plate that included "H42W".
+license_id = 173289
+
+
+I saw the murder happen, and I recognized the killer from my gym when I was working out last week on January the 9th.
+jan 9
+
+select membership_id, person_id, person.name, plate_number from get_fit_now_check_in
+	INNER JOIN get_fit_now_member on get_fit_now_check_in.membership_id = get_fit_now_member.id
+	INNER JOIN person on get_fit_now_member.person_id = person.id
+	INNER JOIN drivers_license on person.license_id = drivers_license.id
+	WHERE check_in_date = 20180109
+
+SELECT DISTINCT name from person
+	INNER JOIN drivers_license on person.license_id = drivers_license.id
+	INNER JOIN facebook_event_checkin on person.id = facebook_event_checkin.person_id
+	WHERE hair_color = "red" and car_make = "Tesla" and event_name = "SQL Symphony Concert"
